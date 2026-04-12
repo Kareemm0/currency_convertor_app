@@ -17,3 +17,15 @@ final class CurrencyCodeFailurState extends CurrencyCodeState {
 
   CurrencyCodeFailurState({required this.msg});
 }
+
+final class ConvertResultSuccessState extends CurrencyCodeSuccsseState {
+  final double rateValue;
+  ConvertResultSuccessState({
+    required super.currencyConvertorModel,
+    required this.rateValue,
+  });
+}
+
+final class ConvertResultFailureState extends CurrencyCodeSuccsseState {
+  ConvertResultFailureState({required super.currencyConvertorModel});
+}
