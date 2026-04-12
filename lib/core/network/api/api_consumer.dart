@@ -8,11 +8,4 @@ abstract interface class ApiConsumer {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   });
-  Future<Either<ServerFailure, Map<String, dynamic>>> post({
-    required String path,
-    required Object body,
-    String? contentType,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? queryParameters,
-  });
 }

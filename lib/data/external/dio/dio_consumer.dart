@@ -63,30 +63,6 @@ class DioConsumer implements ApiConsumer {
     }
   }
 
-  @override
-  Future<Either<ServerFailure, Map<String, dynamic>>> post({
-    required String path,
-    required Object body,
-    bool formDataEnabled = false,
-    String? contentType,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? queryParameters,
-  }) async {
-    try {
-      final response = await _client.post(
-        path,
-        options: Options(contentType: contentType, headers: headers),
-        data: formDataEnabled
-            ? FormData.fromMap(body as Map<String, dynamic>)
-            : body,
-        queryParameters: queryParameters,
-      );
-      return Right(response.data);
-    } on DioException catch (error) {
-      return Left(_handleDioError(error));
-    }
-  }
-
   ServerFailure _handleDioError(DioException error) {
     late ServerException exception;
     switch (error.type) {
