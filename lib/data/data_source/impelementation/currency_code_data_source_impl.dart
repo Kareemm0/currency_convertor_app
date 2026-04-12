@@ -7,13 +7,11 @@ class CurrencyCodeDataSourceImpl implements CurrencyCodeDataSource {
 
   CurrencyCodeDataSourceImpl({required ApiConsumer dio}) : _dio = dio;
   @override
-  Future<Either<Failure, List<dynamic>>> getRates({
-    required RatesInputs inputs,
-  }) async {
+  Future<Either<Failure, List<dynamic>>> getRates({RatesInputs? inputs}) async {
     try {
       final response = await _dio.get<List<dynamic>>(
         path: Endpoints.currency,
-        queryParameters: inputs.toJson(),
+        queryParameters: inputs?.toJson(),
       );
       return response.fold(
         (failur) {

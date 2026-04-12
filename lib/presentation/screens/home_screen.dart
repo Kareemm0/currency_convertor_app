@@ -13,10 +13,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => CurrencyCodeCubit(repo: getIt())
-          ..getRates(
-            inputs: RatesInputs(base: "USD", qoutes: "EGP"),
-          ),
+        create: (context) => CurrencyCodeCubit(repo: getIt())..getRates(),
         child: BlocBuilder<CurrencyCodeCubit, CurrencyCodeState>(
           builder: (ctx, state) {
             return switch (state) {
