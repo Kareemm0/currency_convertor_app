@@ -12,7 +12,7 @@ class CurrencyCodeCubit extends Cubit<CurrencyCodeState> {
 
   final CurrencyCodeRepo _repo;
 
-  Future<void> getRates({required RatesInputs inputs}) async {
+  Future<void> getRates({RatesInputs? inputs}) async {
     emit(CurrencyCodeLoadingState());
     final result = await _repo.getCurrency(inputs: inputs);
 

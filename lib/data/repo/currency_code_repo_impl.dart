@@ -13,7 +13,7 @@ class CurrencyCodeRepoImpl implements CurrencyCodeRepo {
   final CurrencyCodeDataSource _data;
   @override
   Future<Either<Failure, List<CurrencyConvertorModel>>> getCurrency({
-    required RatesInputs inputs,
+    RatesInputs? inputs,
   }) async {
     try {
       final response = await _data.getRates(inputs: inputs);
