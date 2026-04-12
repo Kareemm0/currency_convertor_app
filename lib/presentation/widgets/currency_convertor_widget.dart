@@ -4,9 +4,16 @@ import 'package:flutter/material.dart';
 import '../presentation.dart';
 
 class CurrencyConvertorWidget extends StatelessWidget {
-  const CurrencyConvertorWidget({super.key, required this.imageUrl});
+  const CurrencyConvertorWidget({
+    super.key,
+    required this.imageUrl,
+    required this.baseItems,
+    required this.qoutesItem,
+  });
 
   final String imageUrl;
+  final List<DropdownMenuItem<dynamic>> baseItems;
+  final List<DropdownMenuItem<dynamic>> qoutesItem;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +31,13 @@ class CurrencyConvertorWidget extends StatelessWidget {
         ),
         CountryCodeWithImageWidget(
           imageUrl: imageUrl,
-          items: [],
+          items: baseItems,
           controller: TextEditingController(),
         ),
         Divider(),
         CountryCodeWithImageWidget(
           imageUrl: imageUrl,
-          items: [],
+          items: qoutesItem,
           controller: TextEditingController(),
         ),
       ],

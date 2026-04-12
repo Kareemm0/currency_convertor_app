@@ -22,8 +22,10 @@ class CurrencyCodeRepoImpl implements CurrencyCodeRepo {
           return Left(ServerFailure(msg: failure.msg));
         },
         (right) {
+          final list = right;
+
           return Right(
-            right.map((e) => CurrencyConvertorModel.fromJson(e)).toList(),
+            list.map((e) => CurrencyConvertorModel.fromJson(e)).toList(),
           );
         },
       );
