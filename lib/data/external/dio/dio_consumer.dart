@@ -46,7 +46,7 @@ class DioConsumer implements ApiConsumer {
   }
 
   @override
-  Future<Either<ServerFailure, Map<String, dynamic>>> get({
+  Future<Either<ServerFailure, T>> get<T>({
     required String path,
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,

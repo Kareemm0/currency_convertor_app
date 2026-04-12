@@ -11,7 +11,7 @@ class CurrencyCodeDataSourceImpl implements CurrencyCodeDataSource {
     required RatesInputs inputs,
   }) async {
     try {
-      final response = await _dio.get(
+      final response = await _dio.get<List<dynamic>>(
         path: Endpoints.currency,
         queryParameters: inputs.toJson(),
       );
@@ -20,9 +20,7 @@ class CurrencyCodeDataSourceImpl implements CurrencyCodeDataSource {
           return Left(ServerFailure(msg: failur.msg));
         },
         (right) {
-          return Right(
-            (right as List).map((e) => e as Map<String, dynamic>).toList(),
-          );
+          return Right(right.map((e) => e as Map<String, dynamic>).toList());
         },
       );
     } catch (e) {

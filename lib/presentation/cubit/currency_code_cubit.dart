@@ -5,10 +5,10 @@ import '../../core/core.dart';
 
 part 'currency_code_state.dart';
 
-class CurrencyCodeCubit extends Cubit {
+class CurrencyCodeCubit extends Cubit<CurrencyCodeState> {
   CurrencyCodeCubit({required CurrencyCodeRepo repo})
     : _repo = repo,
-      super(CurrencyCodeInitialState);
+      super(CurrencyCodeInitialState());
 
   final CurrencyCodeRepo _repo;
 
