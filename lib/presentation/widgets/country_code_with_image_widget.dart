@@ -13,14 +13,12 @@ class CountryCodeWithImageWidget<T> extends StatelessWidget {
     this.onChanged,
     required this.controller,
     this.value,
-    this.hint,
   });
   final String imageUrl;
   final List<DropdownMenuItem> items;
   final void Function(dynamic)? onChanged;
   final TextEditingController controller;
   final dynamic value;
-  final Widget? hint;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +32,6 @@ class CountryCodeWithImageWidget<T> extends StatelessWidget {
         DropdownButton(
           value: value,
           items: items,
-          hint: hint,
           onChanged: onChanged,
           underline: const SizedBox(),
           icon: Icon(

@@ -7,21 +7,21 @@ class CurrencyConvertorWidget extends StatelessWidget {
   const CurrencyConvertorWidget({
     super.key,
     required this.imageUrl,
-    required this.baseItems,
-    required this.qoutesItem,
+    required this.items,
     this.baseValue,
     this.qoutesValue,
     this.hint,
     this.onQoutesChanged,
+    this.onBaseChanged,
   });
 
   final String imageUrl;
-  final List<DropdownMenuItem<dynamic>> baseItems;
-  final List<DropdownMenuItem<dynamic>> qoutesItem;
+  final List<DropdownMenuItem<dynamic>> items;
   final dynamic baseValue;
   final dynamic qoutesValue;
   final Widget? hint;
   final void Function(dynamic)? onQoutesChanged;
+  final void Function(dynamic)? onBaseChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +40,17 @@ class CurrencyConvertorWidget extends StatelessWidget {
         ),
         CountryCodeWithImageWidget(
           imageUrl: imageUrl,
-          items: baseItems,
+          items: items,
           controller: TextEditingController(),
           value: baseValue,
+          onChanged: onBaseChanged,
         ),
         Divider(),
         CountryCodeWithImageWidget(
           imageUrl: imageUrl,
-          items: qoutesItem,
+          items: items,
           controller: TextEditingController(),
           value: qoutesValue,
-          hint: hint,
           onChanged: onQoutesChanged,
         ),
       ],
