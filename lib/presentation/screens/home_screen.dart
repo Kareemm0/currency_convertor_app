@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String? qoutesValue;
+  String? baseValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,28 +59,28 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         child: CurrencyConvertorWidget(
                           imageUrl: '',
-                          baseItems: [],
+                          items: currencyConvertorModel
+                              .map(
+                                (e) => DropdownMenuItem(
+                                  value: e.quote,
+                                  child: Text(e.quote ?? ""),
+                                ),
+                              )
+                              .toList(),
                           onQoutesChanged: (val) {
                             setState(() {
                               qoutesValue = val;
                             });
                           },
+                          onBaseChanged: (val) {
+                            setState(() {
+                              baseValue = val;
+                            });
+                          },
+                          baseValue:
+                              baseValue ?? currencyConvertorModel.first.quote,
                           qoutesValue:
                               qoutesValue ?? currencyConvertorModel.first.quote,
-                          hint: Text(
-                            currencyConvertorModel.first.quote ?? "N/A",
-                          ),
-                          qoutesItem: currencyConvertorModel
-                              .map(
-                                (e) => DropdownMenuItem(
-                                  value: e.quote,
-                                  child: Text(
-                                    e.quote ?? "",
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                                ),
-                              )
-                              .toList(),
                         ),
                       ),
                       ElevatedButton(
