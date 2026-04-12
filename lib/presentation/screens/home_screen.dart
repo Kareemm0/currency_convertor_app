@@ -1,14 +1,18 @@
 import 'package:currency_convertor_app/injection_container.dart';
-import 'package:currency_convertor_app/presentation/cubit/currency_code_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../core/core.dart';
 import '../presentation.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String? qoutesValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +40,7 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: .center,
                     children: [
                       Text(
-                        currencyConvertorModel.first.base ??
-                            "Currency Convertor ",
+                        "Currency Convertor ",
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.w600,
@@ -56,7 +59,27 @@ class HomeScreen extends StatelessWidget {
                         child: CurrencyConvertorWidget(
                           imageUrl: '',
                           baseItems: [],
-                          qoutesItem: [],
+                          onQoutesChanged: (val) {
+                            setState(() {
+                              qoutesValue = val;
+                            });
+                          },
+                          qoutesValue:
+                              qoutesValue ?? currencyConvertorModel.first.quote,
+                          hint: Text(
+                            currencyConvertorModel.first.quote ?? "N/A",
+                          ),
+                          qoutesItem: currencyConvertorModel
+                              .map(
+                                (e) => DropdownMenuItem(
+                                  value: e.quote,
+                                  child: Text(
+                                    e.quote ?? "",
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ),
+                              )
+                              .toList(),
                         ),
                       ),
                       ElevatedButton(
