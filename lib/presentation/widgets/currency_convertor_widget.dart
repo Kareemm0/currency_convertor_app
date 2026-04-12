@@ -9,16 +9,25 @@ class CurrencyConvertorWidget extends StatelessWidget {
     required this.imageUrl,
     required this.baseItems,
     required this.qoutesItem,
+    this.baseValue,
+    this.qoutesValue,
+    this.hint,
+    this.onQoutesChanged,
   });
 
   final String imageUrl;
   final List<DropdownMenuItem<dynamic>> baseItems;
   final List<DropdownMenuItem<dynamic>> qoutesItem;
+  final dynamic baseValue;
+  final dynamic qoutesValue;
+  final Widget? hint;
+  final void Function(dynamic)? onQoutesChanged;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: .start,
+      mainAxisSize: .min,
       spacing: 16,
       children: [
         Text(
@@ -33,12 +42,16 @@ class CurrencyConvertorWidget extends StatelessWidget {
           imageUrl: imageUrl,
           items: baseItems,
           controller: TextEditingController(),
+          value: baseValue,
         ),
         Divider(),
         CountryCodeWithImageWidget(
           imageUrl: imageUrl,
           items: qoutesItem,
           controller: TextEditingController(),
+          value: qoutesValue,
+          hint: hint,
+          onChanged: onQoutesChanged,
         ),
       ],
     );
