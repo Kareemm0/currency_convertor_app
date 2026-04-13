@@ -8,9 +8,14 @@ import 'package:dartz/dartz.dart';
 import '../../domian/domian.dart';
 
 class CurrencyCodeRepoImpl implements CurrencyCodeRepo {
-  CurrencyCodeRepoImpl({required CurrencyCodeDataSource data}) : _data = data;
+  CurrencyCodeRepoImpl({
+    required CurrencyCodeDataSource data,
+    required CurrencyLocalDataSource localDataSource,
+  }) : _data = data,
+       _localDataSource = localDataSource;
 
   final CurrencyCodeDataSource _data;
+  final CurrencyLocalDataSource _localDataSource;
   @override
   Future<Either<Failure, List<CurrencyConvertorModel>>> getCurrency({
     RatesInputs? inputs,
@@ -21,8 +26,9 @@ class CurrencyCodeRepoImpl implements CurrencyCodeRepo {
         (failure) {
           return Left(ServerFailure(msg: failure.msg));
         },
-        (right) {
+        (right) async {
           final list = right;
+          await _localDataSource.saveToLocalData(list: list);
 
           return Right(
             list.map((e) => CurrencyConvertorModel.fromJson(e)).toList(),
@@ -32,5 +38,10 @@ class CurrencyCodeRepoImpl implements CurrencyCodeRepo {
     } catch (e) {
       return Left(DataMappingFailure(msg: e.toString()));
     }
+  }
+
+  @override
+  Future<List<CurrencyConvertorModel>> getLocalRates() {
+    return _localDataSource.getLocalDataSource();
   }
 }

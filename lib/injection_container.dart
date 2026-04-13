@@ -33,11 +33,15 @@ abstract class InjectionHelper {
     getIt.registerSingleton<CurrencyCodeDataSource>(
       CurrencyCodeDataSourceImpl(dio: getIt()),
     );
+
+    getIt.registerSingleton<CurrencyLocalDataSource>(
+      CurrencyLocalDataSourceImpl(),
+    );
   }
 
   static void injectRepos() {
     getIt.registerSingleton<CurrencyCodeRepo>(
-      CurrencyCodeRepoImpl(data: getIt()),
+      CurrencyCodeRepoImpl(data: getIt(), localDataSource: getIt()),
     );
   }
 
