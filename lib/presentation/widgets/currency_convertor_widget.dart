@@ -6,16 +6,18 @@ import '../presentation.dart';
 class CurrencyConvertorWidget extends StatelessWidget {
   const CurrencyConvertorWidget({
     super.key,
-    required this.imageUrl,
     required this.items,
     this.baseValue,
     this.qoutesValue,
     this.hint,
     this.onQoutesChanged,
     this.onBaseChanged,
+    required this.baseImageUrl,
+    required this.qoutesImageUrl,
   });
 
-  final String imageUrl;
+  final String baseImageUrl;
+  final String qoutesImageUrl;
   final List<DropdownMenuItem<dynamic>> items;
   final dynamic baseValue;
   final dynamic qoutesValue;
@@ -39,7 +41,7 @@ class CurrencyConvertorWidget extends StatelessWidget {
           ),
         ),
         CountryCodeWithImageWidget(
-          imageUrl: imageUrl,
+          imageUrl: baseImageUrl,
           items: items,
           controller: TextEditingController(),
           value: baseValue,
@@ -47,7 +49,7 @@ class CurrencyConvertorWidget extends StatelessWidget {
         ),
         Divider(),
         CountryCodeWithImageWidget(
-          imageUrl: imageUrl,
+          imageUrl: qoutesImageUrl,
           items: items,
           controller: TextEditingController(),
           value: qoutesValue,

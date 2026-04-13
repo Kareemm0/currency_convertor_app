@@ -1,3 +1,4 @@
+import 'package:currency_convertor_app/presentation/cubit/flags/flags_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/core.dart';
@@ -13,14 +14,21 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String? qoutesValue;
   String? baseValue;
-  bool isShwoen = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<CurrencyCodeCubit, CurrencyCodeState>(
         listener: (context, state) {
-          if (state is ConvertResultSuccessState) {
-            isShwoen = true;
+          if (state is CurrencyCodeSuccsseState) {
+            context.read<FlagsCubit>().getFlags(
+              code:
+                  qoutesValue?.substring(0, 2).toLowerCase() ??
+                  state.currencyConvertorModel.first.quote
+                      ?.substring(0, 2)
+                      .toLowerCase() ??
+                  "",
+            );
           }
         },
         builder: (ctx, state) {
@@ -58,30 +66,40 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: AppColors.containerColor,
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: CurrencyConvertorWidget(
-                        imageUrl: '',
-                        items: currencyConvertorModel
-                            .map(
-                              (e) => DropdownMenuItem(
-                                value: e.quote,
-                                child: Text(e.quote ?? ""),
-                              ),
-                            )
-                            .toList(),
-                        onQoutesChanged: (val) {
-                          setState(() {
-                            qoutesValue = val;
-                          });
+                      child: BlocBuilder<FlagsCubit, FlagsState>(
+                        builder: (context, state) {
+                          return switch (state) {
+                            GetFlagsSuccessState() => CurrencyConvertorWidget(
+                              baseImageUrl: '',
+                              qoutesImageUrl: state.code,
+                              items: currencyConvertorModel
+                                  .map(
+                                    (e) => DropdownMenuItem(
+                                      value: e.quote,
+                                      child: Text(e.quote ?? ""),
+                                    ),
+                                  )
+                                  .toList(),
+                              onQoutesChanged: (val) {
+                                setState(() {
+                                  qoutesValue = val;
+                                });
+                              },
+                              onBaseChanged: (val) {
+                                setState(() {
+                                  baseValue = val;
+                                });
+                              },
+                              baseValue:
+                                  baseValue ??
+                                  currencyConvertorModel.first.quote,
+                              qoutesValue:
+                                  qoutesValue ??
+                                  currencyConvertorModel.first.quote,
+                            ),
+                            _ => SizedBox.shrink(),
+                          };
                         },
-                        onBaseChanged: (val) {
-                          setState(() {
-                            baseValue = val;
-                          });
-                        },
-                        baseValue:
-                            baseValue ?? currencyConvertorModel.first.quote,
-                        qoutesValue:
-                            qoutesValue ?? currencyConvertorModel.first.quote,
                       ),
                     ),
 

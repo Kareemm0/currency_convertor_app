@@ -11,8 +11,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BlocProvider(
-        create: (context) => CurrencyCodeCubit(repo: getIt())..getRates(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => CurrencyCodeCubit(repo: getIt())..getRates(),
+          ),
+          BlocProvider(create: (context) => FlagsCubit(repo: getIt())),
+        ],
         child: HomeScreen(),
       ),
     );

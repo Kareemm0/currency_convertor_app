@@ -14,7 +14,7 @@ class FlagsCubit extends Cubit<FlagsState> {
         emit(GetFlagsFailureState());
       },
       (success) {
-        emit(GetFlagsSuccessState());
+        emit(GetFlagsSuccessState(success));
       },
     );
   }
