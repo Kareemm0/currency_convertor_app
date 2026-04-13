@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CurrencyConvertorModel {
 
- String? get date; String? get base; String? get quote; double? get rate;
+@HiveField(1) String? get date;@HiveField(1) String? get base;@HiveField(1) String? get quote;@HiveField(1) double? get rate;
 /// Create a copy of CurrencyConvertorModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $CurrencyConvertorModelCopyWith<$Res>  {
   factory $CurrencyConvertorModelCopyWith(CurrencyConvertorModel value, $Res Function(CurrencyConvertorModel) _then) = _$CurrencyConvertorModelCopyWithImpl;
 @useResult
 $Res call({
- String? date, String? base, String? quote, double? rate
+@HiveField(1) String? date,@HiveField(1) String? base,@HiveField(1) String? quote,@HiveField(1) double? rate
 });
 
 
@@ -156,7 +156,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? date,  String? base,  String? quote,  double? rate)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(1)  String? date, @HiveField(1)  String? base, @HiveField(1)  String? quote, @HiveField(1)  double? rate)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CurrencyConvertorModel() when $default != null:
 return $default(_that.date,_that.base,_that.quote,_that.rate);case _:
@@ -177,7 +177,7 @@ return $default(_that.date,_that.base,_that.quote,_that.rate);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? date,  String? base,  String? quote,  double? rate)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(1)  String? date, @HiveField(1)  String? base, @HiveField(1)  String? quote, @HiveField(1)  double? rate)  $default,) {final _that = this;
 switch (_that) {
 case _CurrencyConvertorModel():
 return $default(_that.date,_that.base,_that.quote,_that.rate);case _:
@@ -197,7 +197,7 @@ return $default(_that.date,_that.base,_that.quote,_that.rate);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? date,  String? base,  String? quote,  double? rate)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(1)  String? date, @HiveField(1)  String? base, @HiveField(1)  String? quote, @HiveField(1)  double? rate)?  $default,) {final _that = this;
 switch (_that) {
 case _CurrencyConvertorModel() when $default != null:
 return $default(_that.date,_that.base,_that.quote,_that.rate);case _:
@@ -212,13 +212,13 @@ return $default(_that.date,_that.base,_that.quote,_that.rate);case _:
 @JsonSerializable()
 
 class _CurrencyConvertorModel implements CurrencyConvertorModel {
-  const _CurrencyConvertorModel({this.date, this.base, this.quote, this.rate});
+  const _CurrencyConvertorModel({@HiveField(1) this.date, @HiveField(1) this.base, @HiveField(1) this.quote, @HiveField(1) this.rate});
   factory _CurrencyConvertorModel.fromJson(Map<String, dynamic> json) => _$CurrencyConvertorModelFromJson(json);
 
-@override final  String? date;
-@override final  String? base;
-@override final  String? quote;
-@override final  double? rate;
+@override@HiveField(1) final  String? date;
+@override@HiveField(1) final  String? base;
+@override@HiveField(1) final  String? quote;
+@override@HiveField(1) final  double? rate;
 
 /// Create a copy of CurrencyConvertorModel
 /// with the given fields replaced by the non-null parameter values.
@@ -253,7 +253,7 @@ abstract mixin class _$CurrencyConvertorModelCopyWith<$Res> implements $Currency
   factory _$CurrencyConvertorModelCopyWith(_CurrencyConvertorModel value, $Res Function(_CurrencyConvertorModel) _then) = __$CurrencyConvertorModelCopyWithImpl;
 @override @useResult
 $Res call({
- String? date, String? base, String? quote, double? rate
+@HiveField(1) String? date,@HiveField(1) String? base,@HiveField(1) String? quote,@HiveField(1) double? rate
 });
 
 
