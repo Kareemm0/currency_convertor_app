@@ -1,7 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/core.dart';
 import '../presentation.dart';
 
@@ -25,10 +23,7 @@ class CountryCodeWithImageWidget<T> extends StatelessWidget {
     return Row(
       spacing: 8,
       children: [
-        CachedNetworkImage(
-          imageUrl: imageUrl,
-          errorWidget: (context, url, error) => Icon(Icons.error),
-        ),
+        SvgPicture.string(imageUrl, width: 30, height: 30),
         DropdownButton(
           value: value,
           items: items,
