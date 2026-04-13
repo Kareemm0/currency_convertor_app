@@ -14,6 +14,8 @@ class CurrencyConvertorWidget extends StatelessWidget {
     this.onBaseChanged,
     required this.baseImageUrl,
     required this.qoutesImageUrl,
+    required this.qoutesController,
+    this.onAmountChanged,
   });
 
   final String baseImageUrl;
@@ -24,6 +26,8 @@ class CurrencyConvertorWidget extends StatelessWidget {
   final Widget? hint;
   final void Function(dynamic)? onQoutesChanged;
   final void Function(dynamic)? onBaseChanged;
+  final TextEditingController qoutesController;
+  final void Function(String)? onAmountChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +47,16 @@ class CurrencyConvertorWidget extends StatelessWidget {
         CountryCodeWithImageWidget(
           imageUrl: baseImageUrl,
           items: items,
-          controller: TextEditingController(),
+          controller: qoutesController,
           value: baseValue,
           onChanged: onBaseChanged,
+          onAmountChanged: onAmountChanged,
+          isShown: true,
         ),
         Divider(),
         CountryCodeWithImageWidget(
           imageUrl: qoutesImageUrl,
           items: items,
-          controller: TextEditingController(),
           value: qoutesValue,
           onChanged: onQoutesChanged,
         ),

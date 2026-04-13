@@ -5,15 +5,18 @@ class CustomTextFormFiled extends StatelessWidget {
   const CustomTextFormFiled({
     super.key,
     this.hintText,
-    required this.controller,
+    this.controller,
+    this.onChanged,
   });
   final String? hintText;
-  final TextEditingController controller;
+  final TextEditingController? controller;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hintText,
 
