@@ -7,4 +7,6 @@ abstract class CurrencyCodeRepo {
   Future<Either<Failure, List<CurrencyConvertorModel>>> getCurrency({
     RatesInputs? inputs,
   });
+
+  Future<List<CurrencyConvertorModel>> getLocalRates();
 }

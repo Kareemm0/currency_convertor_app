@@ -15,6 +15,12 @@ class CurrencyCodeCubit extends Cubit<CurrencyCodeState> {
   Future<void> getRates() async {
     emit(CurrencyCodeLoadingState());
     final result = await _repo.getCurrency();
+    final localData = await _repo.getLocalRates();
+
+    if (localData.isNotEmpty) {
+      emit(CurrencyCodeSuccsseState(currencyConvertorModel: localData));
+      return;
+    }
 
     result.fold(
       (failure) {
