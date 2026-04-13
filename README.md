@@ -32,22 +32,25 @@ flutter run
 
 # 🖼️ Image Loader Library
 
-## ✅ Used Library: `cached_network_image`
+## ✅ Used : flutter_svg with SvgPicture.string()
 
-### ✔ Why this library?
+### ✔ Why this ?
 
-* **Automatic caching**: Stores downloaded images locally, reducing network calls.
-* **Performance optimized**: Prevents unnecessary reloads during widget rebuilds.
-* **Placeholder & error handling**: Easily display loaders or fallback UI.
-* **Smooth UX**: Improves scrolling performance in lists.
+SVG support: Renders vector-based flag images without quality loss
+Direct string parsing: Handles SVG data directly from API responses
+Memory efficient: Vector graphics consume less memory than raster images
+Scalable: Flags look crisp on any screen size or resolution
+No network overhead: SVG strings are delivered with API responses, eliminating additional network requests
 
 ### 📌 Justification
 
-In this app, country flags (or currency-related images) are frequently displayed. Using `cached_network_image` ensures:
 
-* Faster UI rendering
-* Reduced API/image calls
-* Better user experience in low-network conditions
+In this app, country flags are delivered as SVG string data directly from the API (not as image URLs). Using flutter_svg with SvgPicture.string() allows the app to:
+
+Display flags immediately without extra network calls
+Parse and render SVG content efficiently
+Maintain high-quality visuals on all devices
+Reduce bandwidth usage by eliminating separate image downloads
 
 ---
 
