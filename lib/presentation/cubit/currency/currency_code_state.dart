@@ -29,3 +29,15 @@ final class ConvertResultSuccessState extends CurrencyCodeSuccsseState {
 final class ConvertResultFailureState extends CurrencyCodeSuccsseState {
   ConvertResultFailureState({required super.currencyConvertorModel});
 }
+
+final class GetHistoricalDataSuccessState extends CurrencyCodeSuccsseState {
+  final List<CurrencyConvertorModel> histroicalData;
+  GetHistoricalDataSuccessState({
+    required super.currencyConvertorModel,
+    required this.histroicalData,
+  });
+}
+
+final class GetHistoricalDataFailureState extends CurrencyCodeSuccsseState {
+  GetHistoricalDataFailureState({required super.currencyConvertorModel});
+}

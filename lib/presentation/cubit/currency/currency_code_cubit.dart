@@ -26,7 +26,7 @@ class CurrencyCodeCubit extends Cubit<CurrencyCodeState> {
       (failure) {
         emit(CurrencyCodeFailurState(msg: failure.msg));
       },
-      (success) {
+      (success) async {
         emit(CurrencyCodeSuccsseState(currencyConvertorModel: success));
       },
     );
@@ -44,11 +44,49 @@ class CurrencyCodeCubit extends Cubit<CurrencyCodeState> {
               ),
             );
           },
-          (success) {
+          (success) async {
             emit(
               ConvertResultSuccessState(
                 currencyConvertorModel: currencyConvertorModel,
                 rateValue: success.first.rate ?? 0,
+              ),
+            );
+          },
+        );
+    }
+  }
+
+  Future<void> historicalData({
+    required String base,
+    required String qutes,
+  }) async {
+    switch (state) {
+      case (CurrencyCodeSuccsseState(:final currencyConvertorModel)):
+        final to = DateTime.now();
+        final from = to.subtract(const Duration(days: 7));
+
+        final result = await _repo.getCurrency(
+          inputs: RatesInputs(
+            to: to.toIso8601String().split("T").first,
+            from: from.toIso8601String().split("T").first,
+            base: base,
+            qoutes: qutes,
+          ),
+        );
+
+        result.fold(
+          (failure) {
+            emit(
+              GetHistoricalDataFailureState(
+                currencyConvertorModel: currencyConvertorModel,
+              ),
+            );
+          },
+          (success) {
+            emit(
+              GetHistoricalDataSuccessState(
+                currencyConvertorModel: currencyConvertorModel,
+                histroicalData: success,
               ),
             );
           },
