@@ -9,14 +9,18 @@ class CountryCodeWithImageWidget<T> extends StatelessWidget {
     required this.imageUrl,
     required this.items,
     this.onChanged,
-    required this.controller,
+    this.controller,
     this.value,
+    this.onAmountChanged,
+    this.isShown = false,
   });
   final String imageUrl;
   final List<DropdownMenuItem> items;
   final void Function(dynamic)? onChanged;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final dynamic value;
+  final void Function(String)? onAmountChanged;
+  final bool isShown;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,13 @@ class CountryCodeWithImageWidget<T> extends StatelessWidget {
             color: AppColors.black,
           ),
         ),
-        Expanded(child: CustomTextFormFiled(controller: controller)),
+        if (isShown)
+          Expanded(
+            child: CustomTextFormFiled(
+              controller: controller,
+              onChanged: onAmountChanged,
+            ),
+          ),
       ],
     );
   }

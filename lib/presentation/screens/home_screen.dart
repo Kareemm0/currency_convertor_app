@@ -16,6 +16,8 @@ class _HomeScreenState extends State<HomeScreen> {
   String? baseValue;
   String? baseFlag;
   String? qoutesFlag;
+  double amount = 1;
+  TextEditingController amountController = TextEditingController();
 
   void _updateFlags(BuildContext context) {
     final base = (baseFlag ?? baseValue)?.substring(0, 2).toLowerCase() ?? "";
@@ -23,6 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
         (qoutesFlag ?? qoutesFlag)?.substring(0, 2).toLowerCase() ?? "";
 
     context.read<FlagsCubit>().getFlags(baseFlags: base, qoutesFlag: quote);
+  }
+
+  @override
+  void dispose() {
+    amountController.dispose();
+    super.dispose();
   }
 
   @override
@@ -80,6 +88,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           return switch (state) {
                             GetFlagsSuccessState() => CurrencyConvertorWidget(
                               baseImageUrl: state.baseCode,
+                              onAmountChanged: (val) {
+                                setState(() {
+                                  amount = double.tryParse(val) ?? 1;
+                                });
+                              },
+                              qoutesController: amountController,
                               qoutesImageUrl: state.qoutesCode,
                               items: currencyConvertorModel
                                   .map(
@@ -114,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     if (state is ConvertResultSuccessState)
                       Text(
-                        "1 $baseValue = ${state.rateValue} $qoutesValue",
+                        "$amount $baseValue = ${amount * state.rateValue} $qoutesValue",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
