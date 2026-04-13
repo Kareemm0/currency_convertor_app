@@ -1,7 +1,7 @@
 import 'package:currency_convertor_app/domian/domian.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/core.dart';
+import '../../../core/core.dart';
 
 part 'currency_code_state.dart';
 
