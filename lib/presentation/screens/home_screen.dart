@@ -14,21 +14,30 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String? qoutesValue;
   String? baseValue;
+  String? baseFlag;
+  String? qoutesFlag;
+
+  void _updateFlags(BuildContext context) {
+    final base = (baseFlag ?? baseValue)?.substring(0, 2).toLowerCase() ?? "";
+    final quote =
+        (qoutesFlag ?? qoutesFlag)?.substring(0, 2).toLowerCase() ?? "";
+
+    context.read<FlagsCubit>().getFlags(baseFlags: base, qoutesFlag: quote);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<CurrencyCodeCubit, CurrencyCodeState>(
         listener: (context, state) {
-          if (state is CurrencyCodeSuccsseState) {
-            context.read<FlagsCubit>().getFlags(
-              code:
-                  qoutesValue?.substring(0, 2).toLowerCase() ??
-                  state.currencyConvertorModel.first.quote
-                      ?.substring(0, 2)
-                      .toLowerCase() ??
-                  "",
-            );
+          if (state is CurrencyCodeSuccsseState && baseValue == null) {
+            baseValue = state.currencyConvertorModel.first.quote;
+            qoutesValue = state.currencyConvertorModel.first.quote;
+
+            baseFlag = baseValue;
+            qoutesFlag = qoutesValue;
+
+            _updateFlags(context);
           }
         },
         builder: (ctx, state) {
@@ -70,8 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (context, state) {
                           return switch (state) {
                             GetFlagsSuccessState() => CurrencyConvertorWidget(
-                              baseImageUrl: '',
-                              qoutesImageUrl: state.code,
+                              baseImageUrl: state.baseCode,
+                              qoutesImageUrl: state.qoutesCode,
                               items: currencyConvertorModel
                                   .map(
                                     (e) => DropdownMenuItem(
@@ -83,19 +92,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               onQoutesChanged: (val) {
                                 setState(() {
                                   qoutesValue = val;
+                                  qoutesFlag = val;
                                 });
+                                _updateFlags(context);
                               },
                               onBaseChanged: (val) {
                                 setState(() {
                                   baseValue = val;
+                                  baseFlag = val;
                                 });
+                                _updateFlags(context);
                               },
-                              baseValue:
-                                  baseValue ??
-                                  currencyConvertorModel.first.quote,
-                              qoutesValue:
-                                  qoutesValue ??
-                                  currencyConvertorModel.first.quote,
+                              baseValue: baseValue,
+                              qoutesValue: qoutesValue,
                             ),
                             _ => SizedBox.shrink(),
                           };

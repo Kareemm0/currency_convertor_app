@@ -6,15 +6,31 @@ class FlagsCubit extends Cubit<FlagsState> {
   final FlagsRepo _repo;
   FlagsCubit({required FlagsRepo repo}) : _repo = repo, super(FlagsInitState());
 
-  Future<void> getFlags({required String code}) async {
-    final result = await _repo.getFlags(code: code);
+  Future<void> getFlags({
+    required String qoutesFlag,
+    required String baseFlags,
+  }) async {
+    final qoutesResult = await _repo.getFlags(code: qoutesFlag);
+    final baseResult = await _repo.getFlags(code: baseFlags);
 
-    result.fold(
+    qoutesResult.fold(
       (failure) {
         emit(GetFlagsFailureState());
       },
-      (success) {
-        emit(GetFlagsSuccessState(success));
+      (qoutesSuccess) {
+        baseResult.fold(
+          (failure) {
+            emit(GetFlagsFailureState());
+          },
+          (baseSuccess) {
+            emit(
+              GetFlagsSuccessState(
+                qoutesCode: qoutesSuccess,
+                baseCode: baseSuccess,
+              ),
+            );
+          },
+        );
       },
     );
   }
