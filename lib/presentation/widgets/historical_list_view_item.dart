@@ -1,6 +1,5 @@
 import 'package:currency_convertor_app/core/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class HistoricalListViewItem extends StatelessWidget {
   const HistoricalListViewItem({
