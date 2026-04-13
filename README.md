@@ -10,30 +10,25 @@ A Flutter-based Currency Converter application that fetches exchange rates, cach
 
 ## 1. Clone the repository
 
-```bash
-git clone <your-repo-url>
+
+git clone https://github.com/Kareemm0/currency_convertor_app
 cd currency_convertor_app
-```
+
 
 ## 2. Install dependencies
-
-```bash
 flutter pub get
-```
+
+
 
 ## 3. Generate required files (Freezed & Hive)
 
-```bash
-dart run build_runner build --delete-conflicting-outputs
-```
+
+dart run build_runner build 
+
 
 ## 4. Run the app
 
-```bash
 flutter run
-```
-
----
 
 # 🖼️ Image Loader Library
 
@@ -88,11 +83,11 @@ Hive is the best fit because:
 
 # 🧠 Architecture Overview
 
-```
-Remote API → Hive (Local Cache) → Cubit (State Management) → UI
-```
 
----
+Remote API → Hive (Local Cache) → Cubit (State Management) → UI
+
+
+
 
 # ⚡ Key Features
 
