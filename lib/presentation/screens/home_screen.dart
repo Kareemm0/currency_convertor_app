@@ -2,6 +2,7 @@ import 'package:currency_convertor_app/injection_container.dart';
 import 'package:currency_convertor_app/presentation/cubit/flags/flags_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../core/core.dart';
 import '../presentation.dart';
 
@@ -72,157 +73,162 @@ class _HomeScreenState extends State<HomeScreen> {
               CurrencyCodeSuccsseState(
                 currencyConvertorModel: final currencyConvertorModel,
               ) =>
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 40,
-                    ),
-                    child: Column(
-                      spacing: 16,
-                      crossAxisAlignment: .start,
-                      children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 40,
+                  ),
+                  child: Column(
+                    spacing: 16,
+                    crossAxisAlignment: .start,
+                    mainAxisAlignment: .center,
+
+                    children: [
+                      Text(
+                        "Currency Convertor ",
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textColor,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.containerColor,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: BlocBuilder<FlagsCubit, FlagsState>(
+                          builder: (context, state) {
+                            return switch (state) {
+                              GetFlagsLoadingState() => Skeletonizer(
+                                child: CurrencyConvertorWidget(
+                                  items: [],
+                                  baseImageUrl: '',
+                                  qoutesImageUrl: '',
+                                  qoutesController: TextEditingController(),
+                                ),
+                              ),
+                              GetFlagsSuccessState() => CurrencyConvertorWidget(
+                                baseImageUrl: state.baseCode,
+                                onAmountChanged: (val) {
+                                  setState(() {
+                                    amount = double.tryParse(val) ?? 1;
+                                  });
+                                },
+                                qoutesController: amountController,
+                                qoutesImageUrl: state.qoutesCode,
+                                items: currencyConvertorModel
+                                    .map(
+                                      (e) => DropdownMenuItem(
+                                        value: e.quote,
+                                        child: Text(e.quote ?? ""),
+                                      ),
+                                    )
+                                    .toList(),
+                                onQoutesChanged: (val) {
+                                  setState(() {
+                                    qoutesValue = val;
+                                    qoutesFlag = val;
+                                  });
+                                  _updateFlags(context);
+                                },
+                                onBaseChanged: (val) {
+                                  setState(() {
+                                    baseValue = val;
+                                    baseFlag = val;
+                                  });
+                                  _updateFlags(context);
+                                },
+                                baseValue: baseValue,
+                                qoutesValue: qoutesValue,
+                              ),
+                              _ => SizedBox.shrink(),
+                            };
+                          },
+                        ),
+                      ),
+
+                      if (state is ConvertResultSuccessState)
                         Text(
-                          "Currency Convertor ",
+                          "$amount $baseValue = ${amount * state.rateValue} $qoutesValue",
                           style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
                             color: AppColors.textColor,
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 20,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.containerColor,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: BlocBuilder<FlagsCubit, FlagsState>(
-                            builder: (context, state) {
-                              return switch (state) {
-                                GetFlagsSuccessState() =>
-                                  CurrencyConvertorWidget(
-                                    baseImageUrl: state.baseCode,
-                                    onAmountChanged: (val) {
-                                      setState(() {
-                                        amount = double.tryParse(val) ?? 1;
-                                      });
-                                    },
-                                    qoutesController: amountController,
-                                    qoutesImageUrl: state.qoutesCode,
-                                    items: currencyConvertorModel
-                                        .map(
-                                          (e) => DropdownMenuItem(
-                                            value: e.quote,
-                                            child: Text(e.quote ?? ""),
-                                          ),
-                                        )
-                                        .toList(),
-                                    onQoutesChanged: (val) {
-                                      setState(() {
-                                        qoutesValue = val;
-                                        qoutesFlag = val;
-                                      });
-                                      _updateFlags(context);
-                                    },
-                                    onBaseChanged: (val) {
-                                      setState(() {
-                                        baseValue = val;
-                                        baseFlag = val;
-                                      });
-                                      _updateFlags(context);
-                                    },
-                                    baseValue: baseValue,
-                                    qoutesValue: qoutesValue,
-                                  ),
-                                _ => SizedBox.shrink(),
-                              };
-                            },
-                          ),
-                        ),
-
-                        if (state is ConvertResultSuccessState)
-                          Text(
-                            "$amount $baseValue = ${amount * state.rateValue} $qoutesValue",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.textColor,
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<CurrencyCodeCubit>().getConvertResult(
+                            inputs: RatesInputs(
+                              base: baseValue ?? "",
+                              qoutes: qoutesValue ?? "",
                             ),
-                          ),
-                        ElevatedButton(
-                          onPressed: () {
-                            context.read<CurrencyCodeCubit>().getConvertResult(
-                              inputs: RatesInputs(
-                                base: baseValue ?? "",
-                                qoutes: qoutesValue ?? "",
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.textColor,
-                            minimumSize: Size(double.maxFinite, 50),
-                          ),
-                          child: state is ConvertResultLoadingState
-                              ? CircularProgressIndicator(
-                                  color: AppColors.white,
-                                )
-                              : Text(
-                                  "Convert".toUpperCase(),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.white,
-                                  ),
-                                ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.textColor,
+                          minimumSize: Size(double.maxFinite, 50),
                         ),
-                        // Text(
-                        //   "Historical Countries",
-                        //   style: TextStyle(
-                        //     fontSize: 26,
-                        //     fontWeight: FontWeight.w600,
-                        //     color: AppColors.textColor,
-                        //   ),
-                        // ),
-                        // BlocBuilder<CurrencyCodeCubit, CurrencyCodeState>(
-                        //   buildWhen: (previous, current) =>
-                        //       current is GetHistoricalDataSuccessState,
-                        //   builder: (_, state) {
-                        //     return switch (state) {
-                        //       GetHistoricalDataSuccessState(
-                        //         currencyConvertorModel: final currencyConvertorModel,
-                        //         histroicalData: final histroicalData,
-                        //       ) =>
-                        //         ListView.separated(
-                        //           shrinkWrap: true,
-                        //           physics: NeverScrollableScrollPhysics(),
-                        //           itemBuilder: (ct, index) {
-                        //             return HistoricalListViewItem(
-                        //               base:
-                        //                   currencyConvertorModel[index].base ??
-                        //                   "",
-                        //               qoutes:
-                        //                   currencyConvertorModel[index].quote ??
-                        //                   "",
+                        child: state is ConvertResultLoadingState
+                            ? CircularProgressIndicator(color: AppColors.white)
+                            : Text(
+                                "Convert".toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.white,
+                                ),
+                              ),
+                      ),
+                      // Text(
+                      //   "Historical Countries",
+                      //   style: TextStyle(
+                      //     fontSize: 26,
+                      //     fontWeight: FontWeight.w600,
+                      //     color: AppColors.textColor,
+                      //   ),
+                      // ),
+                      // BlocBuilder<CurrencyCodeCubit, CurrencyCodeState>(
+                      //   buildWhen: (previous, current) =>
+                      //       current is GetHistoricalDataSuccessState,
+                      //   builder: (_, state) {
+                      //     return switch (state) {
+                      //       GetHistoricalDataSuccessState(
+                      //         currencyConvertorModel: final currencyConvertorModel,
+                      //         histroicalData: final histroicalData,
+                      //       ) =>
+                      //         ListView.separated(
+                      //           shrinkWrap: true,
+                      //           physics: NeverScrollableScrollPhysics(),
+                      //           itemBuilder: (ct, index) {
+                      //             return HistoricalListViewItem(
+                      //               base:
+                      //                   currencyConvertorModel[index].base ??
+                      //                   "",
+                      //               qoutes:
+                      //                   currencyConvertorModel[index].quote ??
+                      //                   "",
 
-                        //               rates:
-                        //                   currencyConvertorModel[index].rate ??
-                        //                   0.0,
-                        //             );
-                        //           },
-                        //           separatorBuilder: (_, index) {
-                        //             return Divider();
-                        //           },
-                        //           itemCount: histroicalData.length,
-                        //         ),
-                        //       _ => SizedBox.shrink(),
-                        //     };
-                        //   },
-                        // ),
-                      ],
-                    ),
+                      //               rates:
+                      //                   currencyConvertorModel[index].rate ??
+                      //                   0.0,
+                      //             );
+                      //           },
+                      //           separatorBuilder: (_, index) {
+                      //             return Divider();
+                      //           },
+                      //           itemCount: histroicalData.length,
+                      //         ),
+                      //       _ => SizedBox.shrink(),
+                      //     };
+                      //   },
+                      // ),
+                    ],
                   ),
                 ),
               _ => SizedBox.shrink(),

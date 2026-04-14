@@ -10,6 +10,7 @@ class FlagsCubit extends Cubit<FlagsState> {
     required String qoutesFlag,
     required String baseFlags,
   }) async {
+    emit(GetFlagsLoadingState());
     final qoutesResult = await _repo.getFlags(code: qoutesFlag);
     final baseResult = await _repo.getFlags(code: baseFlags);
 
