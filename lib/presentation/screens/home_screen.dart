@@ -185,49 +185,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                       ),
-                      // Text(
-                      //   "Historical Countries",
-                      //   style: TextStyle(
-                      //     fontSize: 26,
-                      //     fontWeight: FontWeight.w600,
-                      //     color: AppColors.textColor,
-                      //   ),
-                      // ),
-                      // BlocBuilder<CurrencyCodeCubit, CurrencyCodeState>(
-                      //   buildWhen: (previous, current) =>
-                      //       current is GetHistoricalDataSuccessState,
-                      //   builder: (_, state) {
-                      //     return switch (state) {
-                      //       GetHistoricalDataSuccessState(
-                      //         currencyConvertorModel: final currencyConvertorModel,
-                      //         histroicalData: final histroicalData,
-                      //       ) =>
-                      //         ListView.separated(
-                      //           shrinkWrap: true,
-                      //           physics: NeverScrollableScrollPhysics(),
-                      //           itemBuilder: (ct, index) {
-                      //             return HistoricalListViewItem(
-                      //               base:
-                      //                   currencyConvertorModel[index].base ??
-                      //                   "",
-                      //               qoutes:
-                      //                   currencyConvertorModel[index].quote ??
-                      //                   "",
-
-                      //               rates:
-                      //                   currencyConvertorModel[index].rate ??
-                      //                   0.0,
-                      //             );
-                      //           },
-                      //           separatorBuilder: (_, index) {
-                      //             return Divider();
-                      //           },
-                      //           itemCount: histroicalData.length,
-                      //         ),
-                      //       _ => SizedBox.shrink(),
-                      //     };
-                      //   },
-                      // ),
                     ],
                   ),
                 ),
