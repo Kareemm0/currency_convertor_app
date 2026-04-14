@@ -1,7 +1,9 @@
 import 'package:currency_convertor_app/apps/apps.dart';
+import 'package:currency_convertor_app/injection_container.dart';
 import 'package:currency_convertor_app/presentation/screens/custom_bottom_nav_bar_screen.dart';
 import 'package:currency_convertor_app/presentation/screens/historical_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../presentation/presentation.dart';
@@ -36,8 +38,12 @@ final appRouter = GoRouter(
           ],
         ),
       ],
-      builder: (context, state, navigationShell) =>
-          CustomBottomNavBarScreen(navigationShell: navigationShell),
+      builder: (ctx, state, navigationShell) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => CurrencyCodeCubit(repo: getIt())),
+        ],
+        child: CustomBottomNavBarScreen(navigationShell: navigationShell),
+      ),
     ),
   ],
   navigatorKey: navigatorKey,

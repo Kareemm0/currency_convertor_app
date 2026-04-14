@@ -35,6 +35,11 @@ class CurrencyCodeCubit extends Cubit<CurrencyCodeState> {
   Future<void> getConvertResult({RatesInputs? inputs}) async {
     switch (state) {
       case CurrencyCodeSuccsseState(:final currencyConvertorModel):
+        emit(
+          ConvertResultLoadingState(
+            currencyConvertorModel: currencyConvertorModel,
+          ),
+        );
         final result = await _repo.getCurrency(inputs: inputs);
         result.fold(
           (failure) {
