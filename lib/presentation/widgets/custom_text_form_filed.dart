@@ -1,5 +1,6 @@
 import 'package:currency_convertor_app/core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextFormFiled extends StatelessWidget {
   const CustomTextFormFiled({
@@ -19,7 +20,6 @@ class CustomTextFormFiled extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hintText,
-
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.grey98),
           borderRadius: BorderRadius.circular(16),
@@ -37,6 +37,10 @@ class CustomTextFormFiled extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
       ),
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly, // Allows only digits
+      ],
     );
   }
 }
